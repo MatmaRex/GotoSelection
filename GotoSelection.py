@@ -53,5 +53,8 @@ class GotoSelectionCommand(sublime_plugin.WindowCommand):
             while (lineContents[0] in "# "):
                 lineContents = lineContents[1:]
 
-        # Call the goto overlay, give it the current word or selection, and ask it to show files
-        self.window.run_command("show_overlay", {"overlay": "goto", "text": lineContents, "show_files": "true"})
+        # Call the goto overlay, give it the current word or selection, and ask it to show files.
+        # We add a trailing character ('!') and then delete it in order to trigger "keyboard action"
+        # on the overlay and thus highlight the first file.
+        self.window.run_command("show_overlay", {"overlay": "goto", "text": lineContents + "!", "show_files": "true"})
+        self.window.run_command("left_delete")
